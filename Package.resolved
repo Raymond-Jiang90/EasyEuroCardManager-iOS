@@ -1,0 +1,33 @@
+{
+  "originHash" : "094fea46f18e337d56dc70bba5a44e37fb8364749c82227363168d834b06a377",
+  "pins" : [
+    {
+      "identity" : "checkout-event-logger-ios-framework",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/checkout/checkout-event-logger-ios-framework",
+      "state" : {
+        "revision" : "a914d754b4ffb1843730e8e1f8e7e60c4bf81cf9",
+        "version" : "1.2.4"
+      }
+    },
+    {
+      "identity" : "checkoutcardmanagement-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/checkout/CheckoutCardManagement-iOS",
+      "state" : {
+        "revision" : "4f1ae79e9c0f5fa61ddeb6fd7c79bd0e891cbf9f",
+        "version" : "1.1.3"
+      }
+    },
+    {
+      "identity" : "networkclient-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/checkout/NetworkClient-iOS",
+      "state" : {
+        "revision" : "53f91a4bb9b8f0477569a1c77ed2d9bdca15782d",
+        "version" : "1.1.2"
+      }
+    }
+  ],
+  "version" : 3
+}
