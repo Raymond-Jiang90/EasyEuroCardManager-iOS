@@ -1,15 +1,15 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 //
-//  EasyEuroCardManager.swift
-//  EasyEuroCardManager-iOS
+//  EasyEuroCardManagerStub.swift
 //
 //  Created by Raymond on 2024/11/20.
 //
+
 import Foundation
-import CheckoutCardManagement
+import CheckoutCardManagementStub
 import UIKit
-public final class EasyEuroCardManager {
+public final class EasyEuroCardManagerStub {
     
     private var cardManager:CheckoutCardManager?;
     private var card:Card?;
@@ -30,7 +30,7 @@ public final class EasyEuroCardManager {
     /// Initialiser with single configuration for all returned UI components
     /// font:  Font used when returning UI component
     /// textColor :  Text color used when returning UI component
-    public init(font: UIFont,textColor: UIColor,environment:EasyEuroCardManagerEnvironment) {
+    public init(font: UIFont,textColor: UIColor,environment:EasyEuroCardManagerEnvironmentStub) {
         cardManager = CheckoutCardManager(designSystem: CardManagementDesignSystem(font: font, textColor: textColor),environment: environment.toEnvironment());
     }
     

@@ -26,6 +26,8 @@ let package = Package(
             dependencies: [
                 .product(name: "CheckoutCardManagement",
                         package: "CheckoutCardManagement-iOS"),
+                .product(name: "CheckoutCardManagementStub",
+                        package: "CheckoutCardManagement-iOS"),
                 .product(name: "CheckoutNetwork",
                         package: "NetworkClient-iOS"),
                 .product(name: "CheckoutOOBSDK",
