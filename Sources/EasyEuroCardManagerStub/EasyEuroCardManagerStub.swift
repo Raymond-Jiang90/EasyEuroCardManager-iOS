@@ -85,7 +85,18 @@ public final class EasyEuroCardManagerStub {
         card?.getSecurityCode(singleUseToken: singleUseToken, completionHandler: completionHandler);
     }
     
-    public func provision(cardHolderId:String){
-//        card?.provision(cardholderID: cardHolderId, configuration: <#T##ProvisioningConfiguration#>, provisioningToken: <#T##String#>, completionHandler: <#T##((CheckoutCardManager.OperationResult) -> Void)##((CheckoutCardManager.OperationResult) -> Void)##(CheckoutCardManager.OperationResult) -> Void#>)
+    /// Add the card object to the Apple Wallet
+    ///
+    /// - Parameters:
+    ///     - cardhodlerID: Identifier for the cardholder owning the card
+    ///     - provisioningToken: Push Provisioning token
+    ///     - completionHandler: Completion Handler returning the outcome of the provisioning operation
+    public func provision(cardHolderId:String,provisioningToken:String,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+        let configuration = ProvisioningConfiguration(issuerID: D1WrappingCredentials.issuerID,
+                                                      serviceRSAExponent: D1WrappingCredentials.serviceRSAExponent.data(using: .utf8)!,
+                                                      serviceRSAModulus: D1WrappingCredentials.serviceRSAModulus.data(using: .utf8)!,
+                                                      serviceURLString: D1WrappingCredentials.serviceURL,
+                                                      digitalServiceURLString: D1WrappingCredentials.digitalCardURL);
+        card?.provision(cardholderID: cardHolderId, configuration: configuration, provisioningToken: provisioningToken, completionHandler: completionHandler);
     }
 }
