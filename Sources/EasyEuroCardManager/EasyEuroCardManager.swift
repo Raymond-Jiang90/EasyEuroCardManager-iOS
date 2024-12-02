@@ -52,7 +52,7 @@ public final class EasyEuroCardManager {
                 case .success(let cards):
                     self.card = cards.filter({$0.id == cardId}).first;
                     if(self.card == nil){
-                        completionHandler(.failure(CardManagementError.connectionIssue));
+                        completionHandler(.failure(.configurationIssue(hint: "本次错误测试")));
                     }else{
                         completionHandler(.success(""));
                     }

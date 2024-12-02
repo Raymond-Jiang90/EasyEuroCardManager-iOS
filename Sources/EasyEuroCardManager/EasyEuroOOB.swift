@@ -10,6 +10,11 @@ public struct EasyEuroOOB {
     
     var checkoutOOB:CheckoutOOB;
     
+    /// Result type that can provide CardResult or a network error
+    public typealias CardOOBResult = Result<String, Error>
+    /// Completion handler returning CardResult
+    public typealias CardOOBResultCompletion = ((CardOOBResult) -> Void)
+    
     /**
     
        - Parameter environment: Environment for the OOB SDK *.sandbox or .production*
@@ -32,8 +37,13 @@ public struct EasyEuroOOB {
     
        - Returns: Device Registration Response
        */
-    public func registerDevice(with deviceRegistration: CheckoutOOBSDK.CheckoutOOB.DeviceRegistration) async throws{
+    public func registerDevice(token: String, cardID: String, applicationID: String, countryCode:String,number:String, locale: Locale,completionHandler: @escaping CardOOBResultCompletion) async throws{
+        guard let deviceRegistration = try? CheckoutOOB.DeviceRegistration(token: token, cardID: cardID, applicationID: applicationID, phoneNumber: CheckoutOOB.PhoneNumber(countryCode: countryCode, number: number), locale: .english) else {
+//            completionHandler(.failure(<#T##any Error#>));
+            return;
+        };
         try await checkoutOOB.registerDevice(with: deviceRegistration);
+        completionHandler(.success(""));
     }
 }
 extension EasyEuroOOB {

@@ -7,9 +7,10 @@
 
 import Foundation
 import CheckoutCardManagement
-public enum EasyEuroCardManagementError{
+public enum EasyEuroCardManagementError : CardManagementError{
     
-//    static func from() -> Self{
-//        
-//    }
+    
+    static func from() -> Self{
+        
+    }
 }
