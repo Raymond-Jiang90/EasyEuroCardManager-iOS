@@ -13,6 +13,9 @@ let package = Package(
         .library(
             name: "EasyEuroCardManager",
             targets: ["EasyEuroCardManager"]),
+        .library(
+            name: "EasyEuroCardManagerStub",
+            targets: ["EasyEuroCardManagerStub"]),
     ],
     dependencies: [
         .package(url: "https://github.com/checkout/CheckoutCardManagement-iOS",from: "1.1.3"),
@@ -26,6 +29,14 @@ let package = Package(
             dependencies: [
                 .product(name: "CheckoutCardManagement",
                         package: "CheckoutCardManagement-iOS"),
+                .product(name: "CheckoutNetwork",
+                        package: "NetworkClient-iOS"),
+                .product(name: "CheckoutOOBSDK",
+                        package: "CheckoutCardManagement-iOS"),
+            ]),
+        .target(
+            name: "EasyEuroCardManagerStub",
+            dependencies: [
                 .product(name: "CheckoutCardManagementStub",
                         package: "CheckoutCardManagement-iOS"),
                 .product(name: "CheckoutNetwork",
