@@ -85,6 +85,14 @@ public final class EasyEuroCardManager {
         card?.getSecurityCode(singleUseToken: singleUseToken, completionHandler: completionHandler);
     }
     
+    public func getCardholderName() -> String{
+        return card?.cardholderName ?? "";
+    }
+    
+    public func getCardExpiryDate() -> String{
+        return (card?.expiryDate.year ?? "") + "-" + (card?.expiryDate.month ?? "");
+    }
+    
     /// Add the card object to the Apple Wallet
     ///
     /// - Parameters:

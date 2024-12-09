@@ -6,15 +6,9 @@
 
 import Foundation
 import CheckoutOOBSDK
-import CheckoutCardManagement
 public struct EasyEuroOOB {
     
     var checkoutOOB:CheckoutOOB;
-    
-    /// Result type that can provide CardResult or a network error
-    public typealias CardOOBResult = Result<String, CardManagementError>
-    /// Completion handler returning CardResult
-    public typealias CardOOBResultCompletion = ((CardOOBResult) -> Void)
     
     /**
     
