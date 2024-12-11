@@ -85,10 +85,12 @@ public final class EasyEuroCardManager {
         card?.getSecurityCode(singleUseToken: singleUseToken, completionHandler: completionHandler);
     }
     
+    ///  return card holder name
     public func getCardholderName() -> String{
         return card?.cardholderName ?? "";
     }
     
+    ///  return card expiry date
     public func getCardExpiryDate() -> String{
         return (card?.expiryDate.year ?? "") + "-" + (card?.expiryDate.month ?? "");
     }
