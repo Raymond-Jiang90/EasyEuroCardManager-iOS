@@ -92,7 +92,24 @@ public final class EasyEuroCardManager {
     
     ///  return card expiry date
     public func getCardExpiryDate() -> String{
-        return (card?.expiryDate.year ?? "") + "-" + (card?.expiryDate.month ?? "");
+        if(card?.expiryDate.year.isEmpty ?? false || card?.expiryDate.month.isEmpty ?? false){
+            return (card?.expiryDate.year ?? "") + "-" + (card?.expiryDate.month ?? "");
+        }
+        return "";
+    }
+    
+    public func getCardExpiryYear() -> String{
+        if(card?.expiryDate.year.isEmpty ?? false){
+            return card?.expiryDate.year ?? "";
+        }
+        return "";
+    }
+    
+    public func getCardExpiryMonth() -> String{
+        if(card?.expiryDate.month.isEmpty ?? false){
+            return card?.expiryDate.month ?? "";
+        }
+        return "";
     }
     
     /// Add the card object to the Apple Wallet
