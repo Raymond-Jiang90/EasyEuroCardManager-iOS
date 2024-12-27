@@ -92,21 +92,21 @@ public final class EasyEuroCardManager {
     
     ///  return card expiry date
     public func getCardExpiryDate() -> String{
-        if(card?.expiryDate.year.isEmpty ?? false || card?.expiryDate.month.isEmpty ?? false){
+        if(!(card?.expiryDate.year.isEmpty ?? true) && !(card?.expiryDate.month.isEmpty ?? true)){
             return (card?.expiryDate.year ?? "") + "-" + (card?.expiryDate.month ?? "");
         }
         return "";
     }
     
     public func getCardExpiryYear() -> String{
-        if(card?.expiryDate.year.isEmpty ?? false){
+        if(!(card?.expiryDate.year.isEmpty ?? true)){
             return card?.expiryDate.year ?? "";
         }
         return "";
     }
     
     public func getCardExpiryMonth() -> String{
-        if(card?.expiryDate.month.isEmpty ?? false){
+        if(!(card?.expiryDate.month.isEmpty ?? true)){
             return card?.expiryDate.month ?? "";
         }
         return "";
