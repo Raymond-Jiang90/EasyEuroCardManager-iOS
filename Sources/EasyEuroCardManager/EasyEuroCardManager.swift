@@ -112,18 +112,24 @@ public final class EasyEuroCardManager {
         return "";
     }
     
-    /// Add the card object to the Apple Wallet
-    ///
-    /// - Parameters:
-    ///     - cardhodlerID: Identifier for the cardholder owning the card
-    ///     - provisioningToken: Push Provisioning token
-    ///     - completionHandler: Completion Handler returning the outcome of the provisioning operation
-    public func provision(cardHolderId:String,provisioningToken:String,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+    public func configurePushProvisioning(cardHolderId:String,appGroupId:String,uimage:UIImage,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+        if(card == nil){
+            return;
+        }
         let configuration = ProvisioningConfiguration(issuerID: D1WrappingCredentials.issuerID,
                                                       serviceRSAExponent: D1WrappingCredentials.serviceRSAExponent.data(using: .utf8)!,
                                                       serviceRSAModulus: D1WrappingCredentials.serviceRSAModulus.data(using: .utf8)!,
                                                       serviceURLString: D1WrappingCredentials.serviceURL,
                                                       digitalServiceURLString: D1WrappingCredentials.digitalCardURL);
-        card?.provision(cardholderID: cardHolderId, configuration: configuration, provisioningToken: provisioningToken, completionHandler: completionHandler);
+        cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: [(card!,uimage)], completionHandler: completionHandler);
+    }
+    
+    /// Add the card object to the Apple Wallet
+    ///
+    /// - Parameters:
+    ///     - provisioningToken: Push Provisioning token
+    ///     - completionHandler: Completion Handler returning the outcome of the provisioning operation
+    public func provision(provisioningToken:String,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+        card?.provision(provisioningToken: provisioningToken, completionHandler: completionHandler);
     }
 }

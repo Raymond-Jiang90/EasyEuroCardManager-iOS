@@ -1,5 +1,4 @@
 {
-  "originHash" : "094fea46f18e337d56dc70bba5a44e37fb8364749c82227363168d834b06a377",
   "pins" : [
     {
       "identity" : "checkout-event-logger-ios-framework",
@@ -15,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/checkout/CheckoutCardManagement-iOS",
       "state" : {
-        "revision" : "4f1ae79e9c0f5fa61ddeb6fd7c79bd0e891cbf9f",
-        "version" : "1.1.3"
+        "revision" : "bb8263f72018c8a8f16e68ad1877f80a8eaab398",
+        "version" : "2.1.0"
       }
     },
     {
@@ -29,5 +28,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }
