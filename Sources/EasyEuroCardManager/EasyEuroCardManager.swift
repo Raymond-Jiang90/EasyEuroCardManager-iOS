@@ -132,4 +132,8 @@ public final class EasyEuroCardManager {
     public func provision(provisioningToken:String,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
         card?.provision(provisioningToken: provisioningToken, completionHandler: completionHandler);
     }
+    
+    public func getDigitizationState(provisioningToken:String,completionHandler: @escaping ((CheckoutCardManager.CardDigitizationResult) -> Void)){
+        card?.getDigitizationState(provisioningToken: provisioningToken, completionHandler: completionHandler);
+    }
 }
