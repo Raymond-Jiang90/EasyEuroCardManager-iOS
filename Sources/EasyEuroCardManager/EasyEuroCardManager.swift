@@ -26,6 +26,10 @@ public final class EasyEuroCardManager {
     public typealias CardResult = Result<String, CardManagementError>
     /// Completion handler returning CardResult
     public typealias CardResultCompletion = ((CardResult) -> Void)
+    /// Result type that can provide CardList or a network error
+    public typealias CardListResult = Result<[Card], CardManagementError>
+    /// Completion handler returning CardListResult
+    public typealias CardListResultCompletion = ((CardListResult) -> Void)
     
     /// Initialiser with single configuration for all returned UI components
     /// font:  Font used when returning UI component
@@ -65,20 +69,19 @@ public final class EasyEuroCardManager {
         })
     }
     
-    public func initCards(cardId:String,completionHandler: @escaping CardResultCompletion) -> [Card]?{
-        var list = [Card]();
+    public func initCards(cardId:String,completionHandler: @escaping CardListResultCompletion){
         cardManager?.getCards(completionHandler: {(result) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let cards):
-                    list = cards;
+                    completionHandler(.success(cards));
                     break;
                 case .failure(let error):
+                    completionHandler(.failure(error));
                     break;
                 }
             }
         });
-        return list;
     }
     
     /// Request a secure UI component containing pin number for the card
