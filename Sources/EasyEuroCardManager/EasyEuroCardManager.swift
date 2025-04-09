@@ -65,6 +65,22 @@ public final class EasyEuroCardManager {
         })
     }
     
+    public func initCards(cardId:String,completionHandler: @escaping CardResultCompletion) -> [Card]?{
+        var list = [Card]();
+        cardManager?.getCards(completionHandler: {(result) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let cards):
+                    list = cards;
+                    break;
+                case .failure(let error):
+                    break;
+                }
+            }
+        });
+        return list;
+    }
+    
     /// Request a secure UI component containing pin number for the card
     public func getPin(singleUseToken:String,completionHandler: @escaping SecureResultCompletion){
         card?.getPin(singleUseToken: singleUseToken, completionHandler: completionHandler);
