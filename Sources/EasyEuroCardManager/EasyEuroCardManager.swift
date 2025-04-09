@@ -143,6 +143,15 @@ public final class EasyEuroCardManager {
         cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: [(card!,uimage)], completionHandler: completionHandler);
     }
     
+    public func configurePushProvisioning(cardHolderId:String,appGroupId:String,walletCards: [(Card, UIImage)],completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+        let configuration = ProvisioningConfiguration(issuerID: D1WrappingCredentials.issuerID,
+                                                      serviceRSAExponent: D1WrappingCredentials.serviceRSAExponent.data(using: .utf8)!,
+                                                      serviceRSAModulus: D1WrappingCredentials.serviceRSAModulus.data(using: .utf8)!,
+                                                      serviceURLString: D1WrappingCredentials.serviceURL,
+                                                      digitalServiceURLString: D1WrappingCredentials.digitalCardURL);
+        cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: walletCards, completionHandler: completionHandler);
+    }
+    
     /// Add the card object to the Apple Wallet
     ///
     /// - Parameters:
