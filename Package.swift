@@ -18,7 +18,7 @@ let package = Package(
             targets: ["EasyEuroCardManagerStub"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/checkout/CheckoutCardManagement-iOS",from: "2.1.1"),
+        .package(url: "https://github.com/checkout/CheckoutCardManagement-iOS",from: "3.0.0"),
         .package(url: "https://github.com/checkout/NetworkClient-iOS",from: "1.1.2"),
     ],
     targets: [

@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/checkout/CheckoutCardManagement-iOS",
       "state" : {
-        "revision" : "3df258da48bf609410be8ad45b6273638c8c03af",
-        "version" : "2.1.1"
+        "revision" : "afb42a6e1cd094bf2bef6945458f8b757c19346e",
+        "version" : "3.0.0"
       }
     },
     {
