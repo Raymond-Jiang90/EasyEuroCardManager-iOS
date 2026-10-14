@@ -53,17 +53,11 @@ public final class EasyEuroCardManager {
         Task{
             do {
                 card = try await cardManager?.getCard(withID: cardId);
-                DispatchQueue.main.async {
-                    completionHandler(.success(""));
-                }
+                completionHandler(.success(""));
             } catch let error as CardManagementError {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error));
-                }
+                completionHandler(.failure(error));
             }catch let error{
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.configurationIssue(hint: "Failed to init card: \(error)")));
-                }
+                completionHandler(.failure(.configurationIssue(hint: "Failed to init card: \(error)")));
             }
         }
         
@@ -91,22 +85,14 @@ public final class EasyEuroCardManager {
         Task{
             do {
                 guard let cards = try await cardManager?.getCards(statuses: [.active]) else {
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(.configurationIssue(hint: "Failed to init cards")));
-                    }
+                    completionHandler(.failure(.configurationIssue(hint: "Failed to init cards")));
                     return
                 };
-                DispatchQueue.main.async {
-                    completionHandler(.success(cards));
-                }
+                completionHandler(.success(cards));
             } catch let error as CardManagementError {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error));
-                }
+                completionHandler(.failure(error));
             } catch let error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.configurationIssue(hint: "Failed to init cards: \(error)")));
-                }
+                completionHandler(.failure(.configurationIssue(hint: "Failed to init cards: \(error)")));
             }
             
         }
@@ -129,22 +115,14 @@ public final class EasyEuroCardManager {
         Task{
             do{
                 guard let pinView = try await card?.getPin(singleUseToken: singleUseToken) else {
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(.configurationIssue(hint: "Failed to get PIN")));
-                    }
+                    completionHandler(.failure(.configurationIssue(hint: "Failed to get PIN")));
                     return
                 };
-                DispatchQueue.main.async {
-                    completionHandler(.success(pinView));
-                }
+                completionHandler(.success(pinView));
             }catch let error as CardManagementError {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error));
-                }
+                completionHandler(.failure(error));
             } catch let error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.configurationIssue(hint: "Failed to get PIN: \(error)")));
-                }
+                completionHandler(.failure(.configurationIssue(hint: "Failed to get PIN: \(error)")));
             }
         }
     }
@@ -154,22 +132,14 @@ public final class EasyEuroCardManager {
         Task{
             do{
                 guard let pinView = try await card?.getPanAndSecurityCode(singleUseToken: singleUseToken) else {
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(.configurationIssue(hint: "Failed to get PanAndSecurityCode")));
-                    }
+                    completionHandler(.failure(.configurationIssue(hint: "Failed to get PanAndSecurityCode")));
                     return
                 };
-                DispatchQueue.main.async {
-                    completionHandler(.success(pinView));
-                }
+                completionHandler(.success(pinView));
             }catch let error as CardManagementError {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error));
-                }
+                completionHandler(.failure(error));
             } catch let error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.configurationIssue(hint: "Failed to get PanAndSecurityCode: \(error)")));
-                }
+                completionHandler(.failure(.configurationIssue(hint: "Failed to get PanAndSecurityCode: \(error)")));
             }
         }
     }
@@ -179,22 +149,14 @@ public final class EasyEuroCardManager {
         Task{
             do{
                 guard let pinView = try await card?.getPan(singleUseToken: singleUseToken) else {
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(.configurationIssue(hint: "Failed to get getPan")));
-                    }
+                    completionHandler(.failure(.configurationIssue(hint: "Failed to get getPan")));
                     return
                 };
-                DispatchQueue.main.async {
-                    completionHandler(.success(pinView));
-                }
+                completionHandler(.success(pinView));
             }catch let error as CardManagementError {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error));
-                }
+                completionHandler(.failure(error));
             } catch let error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.configurationIssue(hint: "Failed to get getPan: \(error)")));
-                }
+                completionHandler(.failure(.configurationIssue(hint: "Failed to get getPan: \(error)")));
             }
         }
     }
@@ -204,22 +166,14 @@ public final class EasyEuroCardManager {
         Task{
             do{
                 guard let pinView = try await card?.getSecurityCode(singleUseToken: singleUseToken) else {
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(.configurationIssue(hint: "Failed to get getSecurityCode")));
-                    }
+                    completionHandler(.failure(.configurationIssue(hint: "Failed to get getSecurityCode")));
                     return
                 };
-                DispatchQueue.main.async {
-                    completionHandler(.success(pinView));
-                }
+                completionHandler(.success(pinView));
             }catch let error as CardManagementError {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error));
-                }
+                completionHandler(.failure(error));
             } catch let error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.configurationIssue(hint: "Failed to get getSecurityCode: \(error)")));
-                }
+                completionHandler(.failure(.configurationIssue(hint: "Failed to get getSecurityCode: \(error)")));
             }
         }
     }
@@ -263,17 +217,11 @@ public final class EasyEuroCardManager {
         Task{
             do {
                 try await cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: [(card!,uimage)]);
-                DispatchQueue.main.async {
-                    completionHandler(.success)
-                }
+                completionHandler(.success)
             }catch let error as CardManagementError {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error));
-                }
+                completionHandler(.failure(error));
             } catch let error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.configurationIssue(hint: "Failed to configurePushProvisioning: \(error)")));
-                }
+                completionHandler(.failure(.configurationIssue(hint: "Failed to configurePushProvisioning: \(error)")));
             }
         }
     }
@@ -287,17 +235,11 @@ public final class EasyEuroCardManager {
         Task{
             do{
                 try await cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: walletCards);
-                DispatchQueue.main.async {
-                    completionHandler(.success)
-                }
+                completionHandler(.success)
             }catch let error as CardManagementError {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error));
-                }
+                completionHandler(.failure(error));
             } catch let error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.configurationIssue(hint: "Failed to configurePushProvisioning: \(error)")));
-                }
+                completionHandler(.failure(.configurationIssue(hint: "Failed to configurePushProvisioning: \(error)")));
             }
         }
     }
@@ -307,11 +249,16 @@ public final class EasyEuroCardManager {
     /// - Parameters:
     ///     - provisioningToken: Push Provisioning token
     ///     - completionHandler: Completion Handler returning the outcome of the provisioning operation
-    public func provision(provisioningToken:String,viewController: UIViewController) async throws{
-        do{
-            try await card?.provision(provisioningToken: provisioningToken, viewController: viewController);
-        }catch let error as CardManagementError {
-            throw error;
+    public func provision(provisioningToken:String,viewController: UIViewController,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+        Task{
+            do{
+                try await card?.provision(provisioningToken: provisioningToken, viewController: viewController);
+                completionHandler(.success);
+            }catch let error as CardManagementError {
+                completionHandler(.failure(error));
+            } catch let error {
+                completionHandler(.failure(.configurationIssue(hint: "Failed to getDigitizationState: \(error)")));
+            }
         }
     }
     
@@ -320,22 +267,14 @@ public final class EasyEuroCardManager {
         Task{
             do{
                 guard let cardDigitizationData = try await card?.getDigitizationState(provisioningToken: provisioningToken) else {
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(.configurationIssue(hint: "Failed to getDigitizationState")));
-                    }
+                    completionHandler(.failure(.configurationIssue(hint: "Failed to getDigitizationState")));
                     return;
                 };
-                DispatchQueue.main.async {
-                    completionHandler(.success(cardDigitizationData));
-                }
+                completionHandler(.success(cardDigitizationData));
             }catch let error as CardManagementError {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error));
-                }
+                completionHandler(.failure(error));
             } catch let error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.configurationIssue(hint: "Failed to getDigitizationState: \(error)")));
-                }
+                completionHandler(.failure(.configurationIssue(hint: "Failed to getDigitizationState: \(error)")));
             }
         }
     }
