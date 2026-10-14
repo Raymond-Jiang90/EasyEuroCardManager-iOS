@@ -6,19 +6,19 @@ import PackageDescription
 let package = Package(
     name: "EasyEuroCardManager",
     platforms: [
-        .iOS(.v13),
+        .iOS(.v14),
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "EasyEuroCardManager",
             targets: ["EasyEuroCardManager"]),
-        .library(
-            name: "EasyEuroCardManagerStub",
-            targets: ["EasyEuroCardManagerStub"]),
+//        .library(
+//            name: "EasyEuroCardManagerStub",
+//            targets: ["EasyEuroCardManagerStub"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/checkout/CheckoutCardManagement-iOS",from: "3.0.0"),
+        .package(url: "https://github.com/checkout/CheckoutCardManagement-iOS",from: "5.0.0"),
         .package(url: "https://github.com/checkout/NetworkClient-iOS",from: "1.1.2"),
     ],
     targets: [
@@ -34,16 +34,16 @@ let package = Package(
                 .product(name: "CheckoutOOBSDK",
                         package: "CheckoutCardManagement-iOS"),
             ]),
-        .target(
-            name: "EasyEuroCardManagerStub",
-            dependencies: [
-                .product(name: "CheckoutCardManagementStub",
-                        package: "CheckoutCardManagement-iOS"),
-                .product(name: "CheckoutNetwork",
-                        package: "NetworkClient-iOS"),
-                .product(name: "CheckoutOOBSDK",
-                        package: "CheckoutCardManagement-iOS"),
-            ]),
+//        .target(
+//            name: "EasyEuroCardManagerStub",
+//            dependencies: [
+//                .product(name: "CheckoutCardManagementStub",
+//                        package: "CheckoutCardManagement-iOS"),
+//                .product(name: "CheckoutNetwork",
+//                        package: "NetworkClient-iOS"),
+//                .product(name: "CheckoutOOBSDK",
+//                        package: "CheckoutCardManagement-iOS"),
+//            ]),
         .testTarget(
             name: "EasyEuroCardManagerTests",
             dependencies: ["EasyEuroCardManager"]),

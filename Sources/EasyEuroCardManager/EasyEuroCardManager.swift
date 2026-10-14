@@ -49,59 +49,118 @@ public final class EasyEuroCardManager {
     }
     
     /// Initialize a single card based on the card id
-    public func initCard(cardId:String,completionHandler: @escaping CardResultCompletion){
-        cardManager?.getCards(completionHandler: {result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let cards):
-                    self.card = cards.filter({$0.id == cardId}).first;
-                    if(self.card == nil){
-                        completionHandler(.failure(.configurationIssue(hint: "The card ID cannot be matched to a card")));
-                    }else{
-                        completionHandler(.success(""));
-                    }
-                    break
-                case .failure(let error):
-                    completionHandler(.failure(error));
-                    break;
-                }
-            }
-        })
+    public func initCard(cardId:String,completionHandler: @escaping CardResultCompletion) async{
+        
+        do {
+           // Get a specific card
+            card = try await cardManager?.getCard(withID: cardId);
+            completionHandler(.success(""));
+        } catch let error as CardManagementError {
+            completionHandler(.failure(error));
+        }catch let error{
+            completionHandler(.failure(.configurationIssue(hint: "Failed to init card: \(error)")));
+        }
+        
+//        cardManager?.getCards(completionHandler: {result in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let cards):
+//                    self.card = cards.filter({$0.id == cardId}).first;
+//                    if(self.card == nil){
+//                        completionHandler(.failure(.configurationIssue(hint: "The card ID cannot be matched to a card")));
+//                    }else{
+//                        completionHandler(.success(""));
+//                    }
+//                    break
+//                case .failure(let error):
+//                    completionHandler(.failure(error));
+//                    break;
+//                }
+//            }
+//        })
     }
     
-    public func initCards(cardId:String,completionHandler: @escaping CardListResultCompletion){
-        cardManager?.getCards(completionHandler: {(result) in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let cards):
-                    completionHandler(.success(cards));
-                    break;
-                case .failure(let error):
-                    completionHandler(.failure(error));
-                    break;
-                }
-            }
-        });
+    public func initCards(cardId:String,completionHandler: @escaping CardListResultCompletion) async{
+        do {
+           // Get a specific card
+            guard let cards = try await cardManager?.getCards(statuses: [.active]) else {
+                return completionHandler(.failure(.configurationIssue(hint: "Failed to init cards")));
+            };
+            completionHandler(.success(cards));
+        } catch let error as CardManagementError {
+            completionHandler(.failure(error));
+        } catch let error {
+            completionHandler(.failure(.configurationIssue(hint: "Failed to init cards: \(error)")));
+        }
+        
+//        cardManager?.getCards(completionHandler: {(result) in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let cards):
+//                    completionHandler(.success(cards));
+//                    break;
+//                case .failure(let error):
+//                    completionHandler(.failure(error));
+//                    break;
+//                }
+//            }
+//        });
     }
     
     /// Request a secure UI component containing pin number for the card
-    public func getPin(singleUseToken:String,completionHandler: @escaping SecureResultCompletion){
-        card?.getPin(singleUseToken: singleUseToken, completionHandler: completionHandler);
+    public func getPin(singleUseToken:String,completionHandler: @escaping SecureResultCompletion) async{
+        do{
+            guard let pinView = try await card?.getPin(singleUseToken: singleUseToken) else {
+                return completionHandler(.failure(.configurationIssue(hint: "Failed to get PIN")));
+            };
+            completionHandler(.success(pinView));
+        }catch let error as CardManagementError {
+            completionHandler(.failure(error));
+        } catch let error {
+            completionHandler(.failure(.configurationIssue(hint: "Failed to get PIN: \(error)")));
+        }
     }
     
     /// Request a tuple made of pan and security code protected UI components for the card
-    public func getPanAndSecurityCode(singleUseToken:String,completionHandler: @escaping SecurePropertiesResultCompletion){
-        card?.getPanAndSecurityCode(singleUseToken: singleUseToken, completionHandler: completionHandler);
+    public func getPanAndSecurityCode(singleUseToken:String,completionHandler: @escaping SecurePropertiesResultCompletion) async {
+        do{
+            guard let pinView = try await card?.getPanAndSecurityCode(singleUseToken: singleUseToken) else {
+                return completionHandler(.failure(.configurationIssue(hint: "Failed to get PanAndSecurityCode")));
+            };
+            completionHandler(.success(pinView));
+        }catch let error as CardManagementError {
+            completionHandler(.failure(error));
+        } catch let error {
+            completionHandler(.failure(.configurationIssue(hint: "Failed to get PanAndSecurityCode: \(error)")));
+        }
     }
     
     /// Request a secure UI component containing long card number for the card
-    public func getPan(singleUseToken:String,completionHandler: @escaping SecureResultCompletion){
-        card?.getPan(singleUseToken: singleUseToken, completionHandler: completionHandler);
+    public func getPan(singleUseToken:String,completionHandler: @escaping SecureResultCompletion) async {
+        do{
+            guard let pinView = try await card?.getPan(singleUseToken: singleUseToken) else {
+                return completionHandler(.failure(.configurationIssue(hint: "Failed to get getPan")));
+            };
+            completionHandler(.success(pinView));
+        }catch let error as CardManagementError {
+            completionHandler(.failure(error));
+        } catch let error {
+            completionHandler(.failure(.configurationIssue(hint: "Failed to get getPan: \(error)")));
+        }
     }
     
     /// Request a secure UI component containing security number for the card
-    public func getSecurityCode(singleUseToken:String,completionHandler: @escaping SecureResultCompletion){
-        card?.getSecurityCode(singleUseToken: singleUseToken, completionHandler: completionHandler);
+    public func getSecurityCode(singleUseToken:String,completionHandler: @escaping SecureResultCompletion) async {
+        do{
+            guard let pinView = try await card?.getSecurityCode(singleUseToken: singleUseToken) else {
+                return completionHandler(.failure(.configurationIssue(hint: "Failed to get getSecurityCode")));
+            };
+            completionHandler(.success(pinView));
+        }catch let error as CardManagementError {
+            completionHandler(.failure(error));
+        } catch let error {
+            completionHandler(.failure(.configurationIssue(hint: "Failed to get getSecurityCode: \(error)")));
+        }
     }
     
     ///  return card holder name
@@ -131,7 +190,7 @@ public final class EasyEuroCardManager {
         return "";
     }
     
-    public func configurePushProvisioning(cardHolderId:String,appGroupId:String,uimage:UIImage,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+    public func configurePushProvisioning(cardHolderId:String,appGroupId:String,uimage:UIImage,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)) async{
         if(card == nil){
             return;
         }
@@ -140,16 +199,30 @@ public final class EasyEuroCardManager {
                                                       serviceRSAModulus: D1WrappingCredentials.serviceRSAModulus.data(using: .utf8)!,
                                                       serviceURLString: D1WrappingCredentials.serviceURL,
                                                       digitalServiceURLString: D1WrappingCredentials.digitalCardURL);
-        cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: [(card!,uimage)], completionHandler: completionHandler);
+        do {
+            try await cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: [(card!,uimage)]);
+            completionHandler(.success)
+        }catch let error as CardManagementError {
+            completionHandler(.failure(error));
+        } catch let error {
+            completionHandler(.failure(.configurationIssue(hint: "Failed to configurePushProvisioning: \(error)")));
+        }
     }
     
-    public func configurePushProvisioning(cardHolderId:String,appGroupId:String,walletCards: [(Card, UIImage)],completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+    public func configurePushProvisioning(cardHolderId:String,appGroupId:String,walletCards: [(Card, UIImage)],completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)) async{
         let configuration = ProvisioningConfiguration(issuerID: D1WrappingCredentials.issuerID,
                                                       serviceRSAExponent: D1WrappingCredentials.serviceRSAExponent.data(using: .utf8)!,
                                                       serviceRSAModulus: D1WrappingCredentials.serviceRSAModulus.data(using: .utf8)!,
                                                       serviceURLString: D1WrappingCredentials.serviceURL,
                                                       digitalServiceURLString: D1WrappingCredentials.digitalCardURL);
-        cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: walletCards, completionHandler: completionHandler);
+        do{
+            try await cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: walletCards);
+            completionHandler(.success)
+        }catch let error as CardManagementError {
+            completionHandler(.failure(error));
+        } catch let error {
+            completionHandler(.failure(.configurationIssue(hint: "Failed to configurePushProvisioning: \(error)")));
+        }
     }
     
     /// Add the card object to the Apple Wallet
@@ -157,11 +230,24 @@ public final class EasyEuroCardManager {
     /// - Parameters:
     ///     - provisioningToken: Push Provisioning token
     ///     - completionHandler: Completion Handler returning the outcome of the provisioning operation
-    public func provision(provisioningToken:String,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
-        card?.provision(provisioningToken: provisioningToken, completionHandler: completionHandler);
+    public func provision(provisioningToken:String,viewController: UIViewController) async throws{
+        do{
+            try await card?.provision(provisioningToken: provisioningToken, viewController: viewController);
+        }catch let error as CardManagementError {
+            throw error;
+        }
     }
     
-    public func getDigitizationState(provisioningToken:String,completionHandler: @escaping ((CheckoutCardManager.CardDigitizationResult) -> Void)){
-        card?.getDigitizationState(provisioningToken: provisioningToken, completionHandler: completionHandler);
+    public func getDigitizationState(provisioningToken:String,completionHandler: @escaping ((CheckoutCardManager.CardDigitizationResult) -> Void)) async{
+        do{
+            guard let cardDigitizationData = try await card?.getDigitizationState(provisioningToken: provisioningToken) else {
+                return completionHandler(.failure(.configurationIssue(hint: "Failed to getDigitizationState")));
+            };
+            completionHandler(.success(cardDigitizationData));
+        }catch let error as CardManagementError {
+            completionHandler(.failure(error));
+        } catch let error {
+            completionHandler(.failure(.configurationIssue(hint: "Failed to getDigitizationState: \(error)")));
+        }
     }
 }
