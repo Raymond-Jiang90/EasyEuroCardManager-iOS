@@ -49,8 +49,8 @@ public final class EasyEuroCardManager {
     }
     
     /// Initialize a single card based on the card id
-    public func initCard(cardId:String,completionHandler: @escaping CardResultCompletion){
-        Task{
+    nonisolated public func initCard(cardId:String,completionHandler: @escaping CardResultCompletion){
+        Task{@MainActor in
             do {
                 card = try await cardManager?.getCard(withID: cardId);
                 completionHandler(.success(""));
@@ -80,9 +80,8 @@ public final class EasyEuroCardManager {
 //        })
     }
     
-    @MainActor
-    public func initCards(cardId:String,completionHandler: @escaping CardListResultCompletion){
-        Task{
+    nonisolated public func initCards(cardId:String,completionHandler: @escaping CardListResultCompletion){
+        Task{@MainActor in
             do {
                 guard let cards = try await cardManager?.getCards(statuses: [.active]) else {
                     completionHandler(.failure(.configurationIssue(hint: "Failed to init cards")));
@@ -111,8 +110,8 @@ public final class EasyEuroCardManager {
     }
     
     /// Request a secure UI component containing pin number for the card
-    public func getPin(singleUseToken:String,completionHandler: @escaping SecureResultCompletion){
-        Task{
+    nonisolated public func getPin(singleUseToken:String,completionHandler: @escaping SecureResultCompletion){
+        Task{@MainActor in
             do{
                 guard let pinView = try await card?.getPin(singleUseToken: singleUseToken) else {
                     completionHandler(.failure(.configurationIssue(hint: "Failed to get PIN")));
@@ -128,8 +127,8 @@ public final class EasyEuroCardManager {
     }
     
     /// Request a tuple made of pan and security code protected UI components for the card
-    public func getPanAndSecurityCode(singleUseToken:String,completionHandler: @escaping SecurePropertiesResultCompletion) {
-        Task{
+    nonisolated public func getPanAndSecurityCode(singleUseToken:String,completionHandler: @escaping SecurePropertiesResultCompletion) {
+        Task{@MainActor in
             do{
                 guard let pinView = try await card?.getPanAndSecurityCode(singleUseToken: singleUseToken) else {
                     completionHandler(.failure(.configurationIssue(hint: "Failed to get PanAndSecurityCode")));
@@ -145,8 +144,8 @@ public final class EasyEuroCardManager {
     }
     
     /// Request a secure UI component containing long card number for the card
-    public func getPan(singleUseToken:String,completionHandler: @escaping SecureResultCompletion) {
-        Task{
+    nonisolated public func getPan(singleUseToken:String,completionHandler: @escaping SecureResultCompletion) {
+        Task{@MainActor in
             do{
                 guard let pinView = try await card?.getPan(singleUseToken: singleUseToken) else {
                     completionHandler(.failure(.configurationIssue(hint: "Failed to get getPan")));
@@ -162,8 +161,8 @@ public final class EasyEuroCardManager {
     }
     
     /// Request a secure UI component containing security number for the card
-    public func getSecurityCode(singleUseToken:String,completionHandler: @escaping SecureResultCompletion) {
-        Task{
+    nonisolated public func getSecurityCode(singleUseToken:String,completionHandler: @escaping SecureResultCompletion) {
+        Task{@MainActor in
             do{
                 guard let pinView = try await card?.getSecurityCode(singleUseToken: singleUseToken) else {
                     completionHandler(.failure(.configurationIssue(hint: "Failed to get getSecurityCode")));
@@ -205,7 +204,7 @@ public final class EasyEuroCardManager {
         return "";
     }
     
-    public func configurePushProvisioning(cardHolderId:String,appGroupId:String,uimage:UIImage,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+    nonisolated public func configurePushProvisioning(cardHolderId:String,appGroupId:String,uimage:UIImage,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
         if(card == nil){
             return;
         }
@@ -214,7 +213,7 @@ public final class EasyEuroCardManager {
                                                       serviceRSAModulus: D1WrappingCredentials.serviceRSAModulus.data(using: .utf8)!,
                                                       serviceURLString: D1WrappingCredentials.serviceURL,
                                                       digitalServiceURLString: D1WrappingCredentials.digitalCardURL);
-        Task{
+        Task{ @MainActor in
             do {
                 try await cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: [(card!,uimage)]);
                 completionHandler(.success)
@@ -226,13 +225,13 @@ public final class EasyEuroCardManager {
         }
     }
     
-    public func configurePushProvisioning(cardHolderId:String,appGroupId:String,walletCards: [(Card, UIImage)],completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+    nonisolated public func configurePushProvisioning(cardHolderId:String,appGroupId:String,walletCards: [(Card, UIImage)],completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
         let configuration = ProvisioningConfiguration(issuerID: D1WrappingCredentials.issuerID,
                                                       serviceRSAExponent: D1WrappingCredentials.serviceRSAExponent.data(using: .utf8)!,
                                                       serviceRSAModulus: D1WrappingCredentials.serviceRSAModulus.data(using: .utf8)!,
                                                       serviceURLString: D1WrappingCredentials.serviceURL,
                                                       digitalServiceURLString: D1WrappingCredentials.digitalCardURL);
-        Task{
+        Task{ @MainActor in
             do{
                 try await cardManager?.configurePushProvisioning(cardholderID: cardHolderId, appGroupId: appGroupId, configuration: configuration, walletCards: walletCards);
                 completionHandler(.success)
@@ -249,8 +248,8 @@ public final class EasyEuroCardManager {
     /// - Parameters:
     ///     - provisioningToken: Push Provisioning token
     ///     - completionHandler: Completion Handler returning the outcome of the provisioning operation
-    public func provision(provisioningToken:String,viewController: UIViewController,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
-        Task{
+    nonisolated public func provision(provisioningToken:String,viewController: UIViewController,completionHandler: @escaping ((CheckoutCardManager.OperationResult) -> Void)){
+        Task{ @MainActor in
             do{
                 try await card?.provision(provisioningToken: provisioningToken, viewController: viewController);
                 completionHandler(.success);
@@ -262,9 +261,8 @@ public final class EasyEuroCardManager {
         }
     }
     
-    @MainActor
-    public func getDigitizationState(provisioningToken:String,completionHandler: @escaping ((CheckoutCardManager.CardDigitizationResult) -> Void)){
-        Task{
+    nonisolated public func getDigitizationState(provisioningToken:String,completionHandler: @escaping ((CheckoutCardManager.CardDigitizationResult) -> Void)){
+        Task{ @MainActor in
             do{
                 guard let cardDigitizationData = try await card?.getDigitizationState(provisioningToken: provisioningToken) else {
                     completionHandler(.failure(.configurationIssue(hint: "Failed to getDigitizationState")));
@@ -274,6 +272,7 @@ public final class EasyEuroCardManager {
             }catch let error as CardManagementError {
                 completionHandler(.failure(error));
             } catch let error {
+                
                 completionHandler(.failure(.configurationIssue(hint: "Failed to getDigitizationState: \(error)")));
             }
         }
